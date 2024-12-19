@@ -1,10 +1,12 @@
 
 import express from 'express'
+import bodyParser from 'body-parser'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import fallback from 'express-history-api-fallback'
 import dataSource from './dataSource'
-import { RequestHandler } from 'express'
+import { RegisterRoutes } from './routes/routes'
+
 
 const connectDatabase = async () => {
     try {
@@ -20,15 +22,22 @@ const connectDatabase = async () => {
 
 const app = express()
 
+// Use body parser to read sent json payloads
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }),
+)
+app.use(bodyParser.json())
+
 // Public folder
+const router = express.Router()
+RegisterRoutes(router)
+app.use('/api', router)
 app.use(express.static(`${__dirname}/../public`))
 app.use(fallback('index.html', { root: `${__dirname}/../public` }))
 
 const port = 3000;
-
-app.get('/api', (req, res) => {
-  res.send('Hello World!');
-})
 
 app.listen(port, async () => {
   await connectDatabase()
@@ -37,3 +46,11 @@ app.listen(port, async () => {
   }
   console.log(`server is listening on ${port} !!!`);
 });
+function logWithExpress(): any {
+  throw new Error('Function not implemented.')
+}
+
+function applicationLoggerMiddleware(): any {
+  throw new Error('Function not implemented.')
+}
+

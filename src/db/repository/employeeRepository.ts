@@ -1,9 +1,8 @@
 import Employee from '../entity/EmployeeEntity'
 import dataSource from '../../dataSource'
-import Role from 'db/entity/RoleEntity'
 
 export const employeeRepository = dataSource.getRepository(Employee).extend({
-  async createEmployee (name:string, account:string, role: Role ) {
+  async createEmployee (name:string, account:string, role:string) {
     const newEmployee = this.create({
       name,
       account,
@@ -12,10 +11,16 @@ export const employeeRepository = dataSource.getRepository(Employee).extend({
     return await this.save(newEmployee)
   },
 
+  async updateEmployee (employee: Employee) {
+    return await this.save(employee)
+  },
+
+  async deleteEmployee (employee: Employee) {
+    return await this.softRemove(employee)
+  },
+
   async getEmployees () {
-    const employees = await this.find({
-      relations: ['role'],
-    })
+    const employees = await this.find({})
   
     return employees
   },
@@ -23,7 +28,6 @@ export const employeeRepository = dataSource.getRepository(Employee).extend({
   async getEmployeeById (id: number) {
     const employees = await this.findOne({
       where: { id },
-      relations: ['role'],
     })
     
     if (!employees) {

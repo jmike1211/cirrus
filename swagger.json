@@ -1,0 +1,193 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"CreateEmployeeRequest": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"account": {
+						"type": "string"
+					},
+					"role": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"account",
+					"role"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Employee": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double",
+						"description": "流水號 id (自動產生)"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time",
+						"description": "建立日期"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time",
+						"description": "更新日期"
+					},
+					"deleted_at": {
+						"type": "string",
+						"format": "date-time",
+						"nullable": true,
+						"description": "刪除日期"
+					},
+					"name": {
+						"type": "string"
+					},
+					"account": {
+						"type": "string"
+					},
+					"role": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"id",
+					"created_at",
+					"updated_at",
+					"deleted_at",
+					"name",
+					"account",
+					"role"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "cirrus",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/employees": {
+			"post": {
+				"operationId": "CreateEmployee",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					},
+					"201": {
+						"description": "Created"
+					}
+				},
+				"description": "新增員工",
+				"tags": [
+					"Employees"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"description": "包含員工的基本資料",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateEmployeeRequest",
+								"description": "包含員工的基本資料"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetEmployees",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Employee"
+									},
+									"type": "array"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"summary": "取得所有員工",
+				"tags": [
+					"Employees"
+				],
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/employees/{id}": {
+			"get": {
+				"operationId": "GetEmployeeById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Employee"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"description": "根據 ID 取得單一員工資料",
+				"tags": [
+					"Employees"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "員工的唯一識別碼",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/api"
+		}
+	]
+}

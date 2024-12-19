@@ -1,22 +1,24 @@
 import { Controller, Response, Route, Tags, Post, Body, Request, Security, Path, Delete, Get, Query, Patch } from 'tsoa'
 import {
   createEmployee,
+  deleteEmployee,
   getEmployeeById,
-  getEmployees 
+  getEmployees, 
+  updateEmployee
 } from '../service/employeeService'
 import Employee from '../db/entity/EmployeeEntity';
   
 interface CreateEmployeeRequest {
   name: string;
   account: string;
-  roleId: number;
+  role: string;
 }
 
 interface UpdateEmployeeRequest {
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  department?: string;
+  employeeId: number,
+  name?: string, 
+  account?: string, 
+  role?: string
 }
 
 @Tags('Employees')
@@ -24,21 +26,49 @@ interface UpdateEmployeeRequest {
 export class EmployeeController extends Controller {
   /**
    * 新增員工
-   * @param requestBody 包含員工的基本資料
+   * @param body 包含員工的基本資料
    */
   @Post('/')
   @Response(201, 'Created')
   public async createEmployee(
-    @Body() requestBody: CreateEmployeeRequest
+    @Body() body: CreateEmployeeRequest
   ) {
+    console.log('Received request body:', body);
     const employeeId = await createEmployee(
-      requestBody.name, 
-      requestBody.account,
-      requestBody.roleId
+      body.name, 
+      body.account,
+      body.role
     )
     return employeeId
   }
 
+  /**
+   * 更新指定 ID 的員工資料
+   * @param id 員工的唯一識別碼
+   * @param requestBody 要更新的欄位資料
+   */
+  @Patch('/{id}')
+  @Response(404, 'Not Found')
+  public async updateEmployee(
+    @Path() id: number,
+    @Body() body: UpdateEmployeeRequest
+    ) {
+      const employeeId = await updateEmployee(id)
+      return employeeId
+    }
+
+  /**
+   * 刪除指定 ID 的員工
+   * @param id 員工的唯一識別碼
+   */
+  @Delete('/{id}')
+  @Response(404, 'Not Found')
+  public async deleteEmployee(
+    @Path() id: number
+  ) {
+    const employeeId = await deleteEmployee(id)
+    return employeeId
+  }
     
   /**
    * @summary 取得所有員工
@@ -55,7 +85,7 @@ export class EmployeeController extends Controller {
    * 根據 ID 取得單一員工資料
    * @param id 員工的唯一識別碼
    */
-  @Get('{id}')
+  @Get('/{id}')
   @Response(404, 'Not Found')
   public async getEmployeeById(
     @Path() id: number
