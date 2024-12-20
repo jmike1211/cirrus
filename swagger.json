@@ -27,6 +27,21 @@
 				"type": "object",
 				"additionalProperties": false
 			},
+			"UpdateEmployeeRequest": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"account": {
+						"type": "string"
+					},
+					"role": {
+						"type": "string"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
 			"Employee": {
 				"properties": {
 					"id": {
@@ -148,6 +163,88 @@
 			}
 		},
 		"/employees/{id}": {
+			"patch": {
+				"operationId": "UpdateEmployee",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "number",
+									"format": "double"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"description": "更新指定 ID 的員工資料",
+				"tags": [
+					"Employees"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "員工的唯一識別碼",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateEmployeeRequest"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteEmployee",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "number",
+									"format": "double"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"description": "刪除指定 ID 的員工",
+				"tags": [
+					"Employees"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"description": "員工的唯一識別碼",
+						"in": "path",
+						"name": "id",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			},
 			"get": {
 				"operationId": "GetEmployeeById",
 				"responses": {

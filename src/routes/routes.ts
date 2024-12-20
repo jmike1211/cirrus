@@ -22,6 +22,16 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UpdateEmployeeRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "name": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"undefined"}]},
+            "account": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"undefined"}]},
+            "role": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"undefined"}]},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "Employee": {
         "dataType": "refObject",
         "properties": {
@@ -72,6 +82,67 @@ export function RegisterRoutes(app: Router) {
 
               await templateService.apiHandler({
                 methodName: 'createEmployee',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsEmployeeController_updateEmployee: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+                body: {"in":"body","name":"body","required":true,"ref":"UpdateEmployeeRequest"},
+        };
+        app.patch('/employees/:id',
+            ...(fetchMiddlewares<RequestHandler>(EmployeeController)),
+            ...(fetchMiddlewares<RequestHandler>(EmployeeController.prototype.updateEmployee)),
+
+            async function EmployeeController_updateEmployee(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsEmployeeController_updateEmployee, request, response });
+
+                const controller = new EmployeeController();
+
+              await templateService.apiHandler({
+                methodName: 'updateEmployee',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsEmployeeController_deleteEmployee: Record<string, TsoaRoute.ParameterSchema> = {
+                id: {"in":"path","name":"id","required":true,"dataType":"double"},
+        };
+        app.delete('/employees/:id',
+            ...(fetchMiddlewares<RequestHandler>(EmployeeController)),
+            ...(fetchMiddlewares<RequestHandler>(EmployeeController.prototype.deleteEmployee)),
+
+            async function EmployeeController_deleteEmployee(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsEmployeeController_deleteEmployee, request, response });
+
+                const controller = new EmployeeController();
+
+              await templateService.apiHandler({
+                methodName: 'deleteEmployee',
                 controller,
                 response,
                 next,

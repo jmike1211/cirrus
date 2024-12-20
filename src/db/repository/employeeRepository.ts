@@ -1,8 +1,10 @@
 import Employee from '../entity/EmployeeEntity'
 import dataSource from '../../dataSource'
+import { createEmployeeRepositoryDto } from '../../dto/employee.dto'
 
 export const employeeRepository = dataSource.getRepository(Employee).extend({
-  async createEmployee (name:string, account:string, role:string) {
+  async createEmployee (dto: createEmployeeRepositoryDto) {
+    const { name, account, role } = dto
     const newEmployee = this.create({
       name,
       account,

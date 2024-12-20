@@ -15,10 +15,9 @@ interface CreateEmployeeRequest {
 }
 
 interface UpdateEmployeeRequest {
-  employeeId: number,
-  name?: string, 
-  account?: string, 
-  role?: string
+  name?: string | undefined, 
+  account?: string | undefined, 
+  role?: string | undefined
 }
 
 @Tags('Employees')
@@ -34,11 +33,11 @@ export class EmployeeController extends Controller {
     @Body() body: CreateEmployeeRequest
   ) {
     console.log('Received request body:', body);
-    const employeeId = await createEmployee(
-      body.name, 
-      body.account,
-      body.role
-    )
+    const employeeId = await createEmployee({
+      name: body.name, 
+      account: body.account,
+      role: body.role
+    })
     return employeeId
   }
 
@@ -53,7 +52,12 @@ export class EmployeeController extends Controller {
     @Path() id: number,
     @Body() body: UpdateEmployeeRequest
     ) {
-      const employeeId = await updateEmployee(id)
+      const employeeId = await updateEmployee({
+        employeeId: id,
+        name: body.name,
+        account: body.account,
+        role: body.role
+    })
       return employeeId
     }
 

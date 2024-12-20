@@ -1,20 +1,23 @@
 import dataSource from '../dataSource'
 import { employeeRepository } from '../db/repository/employeeRepository'
+import { createEmployeeServiceDto, updateEmployeeServiceDto } from '../dto/employee.dto'
 
-export const createEmployee = async (name: string, account: string, role: string) => {
-  console.log(`createEmployee service`)
+export const createEmployee = async (dto: createEmployeeServiceDto) => {
+  console.log(`createEmployee service ${dto}`)
 
-  const {id} = await employeeRepository.createEmployee(
+  const {name, account, role} = dto
+  const {id} = await employeeRepository.createEmployee({
     name,
     account,
     role
-  )
+  })
   return id
 }
 
-export const updateEmployee = async (employeeId: number, name?: string, account?: string, role?: string) => {
-  console.log(`updateEmployee service ${employeeId}`)
+export const updateEmployee = async (dto: updateEmployeeServiceDto) => {
+  console.log(`updateEmployee service ${dto}`)
 
+  const {employeeId, name, account, role} = dto
   await dataSource.transaction(async manager => {
     const employee = await manager.withRepository(employeeRepository).getEmployeeById(employeeId)
     employee.name = name || employee.name
