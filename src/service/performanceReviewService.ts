@@ -22,11 +22,16 @@ export const assignPerformanceReview = async (dto: assignPerformanceReviewServic
 export const updatePerformanceReview = async (dto: updatePerformanceReviewServiceDto) => {
   console.log(`updatePerformanceReview service ${dto}`)
 
-  const { performanceReviewId, feedback_text, status } = dto
+  const { performanceReviewId, feedbackText, status } = dto
   await dataSource.transaction(async manager => {
     const performanceReview = await manager.withRepository(performanceReviewRepository).getPerformanceReviewById(performanceReviewId)
-    performanceReview.feedback_text = feedback_text || performanceReview.feedback_text
+    performanceReview.feedback_text = feedbackText || performanceReview.feedback_text
     performanceReview.status = status || performanceReview.status
     await manager.withRepository(performanceReviewRepository).updatePerformanceReview(performanceReview)
   })
+}
+
+export const getPerformanceReviews = async () => {
+  console.log(`getPerformanceReviews service`)
+  return await performanceReviewRepository.getPerformanceReviews()
 }

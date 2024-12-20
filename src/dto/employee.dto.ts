@@ -5,10 +5,10 @@ export interface createEmployeeServiceDto {
 }
 
 export interface updateEmployeeServiceDto {
-  employeeId: number,
-  name?: string | undefined, 
-  account?: string | undefined, 
-  role?: string | undefined
+  employeeId: number;
+  name?: string | undefined;
+  account?: string | undefined;
+  role?: string | undefined;
 }
 
 export interface createEmployeeRepositoryDto {

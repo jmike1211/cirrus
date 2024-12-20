@@ -14,6 +14,6 @@ export interface assignPerformanceReviewRepositoryDto {
 
 export interface updatePerformanceReviewServiceDto {
   performanceReviewId: number;
-  feedback_text: string
-  status: string
+  feedbackText: string;
+  status: string;
 }
